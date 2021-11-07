@@ -122,7 +122,7 @@ __Ruta de creación__: debe contener
 
 El modelo de la base de datos deberá tener las siguientes entidades (Aquellas propiedades marcadas con asterísco deben ser obligatorias):
 
-- [ ] Pokemon con las siguientes propiedades:
+- [x] Pokemon con las siguientes propiedades:
   - ID (Número de Pokemon) * : No puede ser un ID de un pokemon ya existente en la API pokeapi
   - Nombre *
   - Vida
@@ -131,7 +131,7 @@ El modelo de la base de datos deberá tener las siguientes entidades (Aquellas p
   - Velocidad
   - Altura
   - Peso
-- [ ] Tipo con las siguientes propiedades:
+- [x] Tipo con las siguientes propiedades:
   - ID
   - Nombre
 
