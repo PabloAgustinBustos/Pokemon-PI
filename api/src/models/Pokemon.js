@@ -20,42 +20,42 @@ module.exports = (sequelize) => {
     },
 
     // https://pokeapi.co/api/v2/pokemon/1 . name
-    Nombre: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
 
     // https://pokeapi.co/api/v2/pokemon/1 . stats[0] . stat . name -> name del stat que en este caso es hp
     // https://pokeapi.co/api/v2/pokemon/1 . stats[0] . base_stat -> valor del stat (número)
-    Vida: {
+    hp: {
       type: DataTypes.INTEGER,
     },
 
     // https://pokeapi.co/api/v2/pokemon/1 . stats[1] . stat . name -> name del stat attack
     // https://pokeapi.co/api/v2/pokemon/1 . stats[1] . base_stat -> valor del stat (número)
-    Fuerza: {
+    atk: {
       type: DataTypes.INTEGER,
     },
 
     // https://pokeapi.co/api/v2/pokemon/1 . stats[2] . stat . name -> name del stat defense
     // https://pokeapi.co/api/v2/pokemon/1 . stats[2] . base_stat -> valor del stat (número)
-    Defensa: {
+    def: {
       type: DataTypes.INTEGER,
     },
 
     // https://pokeapi.co/api/v2/pokemon/1 . stats[5] . stat . name -> name del stat speed
     // https://pokeapi.co/api/v2/pokemon/1 . stats[5] . base_stat -> valor del stat (número)
-    Velocidad: {
+    speed: {
       type: DataTypes.INTEGER,
     },
 
     // https://pokeapi.co/api/v2/pokemon/1 . height -> altura en numero
-    Altura: {
+    height: {
       type: DataTypes.INTEGER,
     },
 
     // https://pokeapi.co/api/v2/pokemon/1 . weight -> peso en numero
-    Peso: {
+    weight: {
       type: DataTypes.INTEGER,
     },
   });
