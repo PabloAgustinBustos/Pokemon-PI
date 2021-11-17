@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const axios = require("axios");
 
-const {Pokemon, conn} = require("../db");
+const {Pokemon, Type, conn} = require("../db");
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -16,6 +16,8 @@ router.get("/", (req, res) => {
 
 async function getPokemon(res){
     return{
+        sprite: res.sprites.front_default,
+        id: res.id,
         name: res.name,
         hp: res.stats[0].base_stat,
         atk: res.stats[1].base_stat,
@@ -52,47 +54,40 @@ router.get("/pokemons", async(req, res) => {
     let pokemon = {};
 
     try{
+        // si no hay query name, se busca a todos
         if(!name){
-            // result = await axios("https://pokeapi.co/api/v2/pokemon?offset=0&limit=1200");
-            result = await axios("https://pokeapi.co/api/v2/pokemon?offset=0&limit=6");
+            // result = await axios("https://pokeapi.co/api/v2/pokemon?offset=0&limit=40");
+            result = await axios("https://pokeapi.co/api/v2/pokemon?offset=0&limit=6");         //primero agarro los datos de la API
 
-            pokemonsAPI = await getPokemons(result.data.results);
+            pokemonsAPI = await getPokemons(result.data.results);                               //luego armo el array de pokemons como lo quiero
     
-            pokemonDB = await Pokemon.findAll({
-                attributes: {
-                    exclude: ['ID']
-                }
+            pokemonDB = await Pokemon.findAll({                                                 //también los busco en la DB
+                include: Type,
             });
 
-            myPokemons = pokemonDB.map(p => p.dataValues);
+            myPokemons = pokemonDB.map(p => p.dataValues);                                      //y armo el array de pokemons de DB como yo los quiero
 
-            pokemons = [...pokemonsAPI, ...myPokemons]
+            pokemons = [...pokemonsAPI, ...myPokemons]                                          //los junto
 
             res.status(200).json(pokemons);
         }else{
-            try{
+            console.log("voy a buscar a " + name)
+            pokemonDB = await Pokemon.findOne({   
+                where: {
+                    name
+                }
+            });
+
+            if(pokemonDB){
+                res.status(200).json(pokemonDB.dataValues);
+            }else if(pokemonDB === null){
                 result = await axios(`https://pokeapi.co/api/v2/pokemon/${name}`);
-    
-                console.log("tengo " + result);
     
                 pokemon = await getPokemon(result.data);
     
                 res.status(200).json(pokemon);
-            }catch(e){
-                pokemonDB = await Pokemon.findOne({
-                    attributes: {
-                        exclude: ['ID']
-                    },
-                    
-                    where: {
-                        name
-                    }
-                });
-
-                console.log(pokemonDB)
-
-                res.status(200).json(pokemonDB.dataValues);
             }
+            res.status(200).json({message: "mandado"})
         }
     }catch(e){
         res.status(404).json(e);
@@ -105,43 +100,63 @@ router.get("/pokemons/:idPokemon", async(req, res) => {
     let pokemon = {};
 
     try{
-        pokemon = await Pokemon.findOne({
-            attributes: {
-                exclude: ['ID']
-            },
-            
-            where: {
-                ID: idPokemon
-            }
-        });
+        if(idPokemon.includes("-")){
+            pokemon = await Pokemon.findOne({
+                where: {
+                    id: idPokemon
+                },
+                
+                include: Type,
+            });
         
-        res.status(200).json(pokemon);
-    }catch(e){
-        try{
+            res.json(pokemon);
+        }else{
             const result = await axios(`https://pokeapi.co/api/v2/pokemon/${idPokemon}`);
     
             pokemon = await getPokemon(result.data);
     
-            console.log("tengo: ", pokemon);
-    
-            res.status(200).json(pokemon);
-        }catch(e){
-            res.status(404).json({message: "F"});
+            res.json(pokemon);
         }
-        
+    }catch(e){
+        res.status(404).json({message: "F"});
     }
 })
 
 // TODO todo el GET de types
 router.get("/types", async(req, res) => {
+    
+
+    try {
+        const response = await fetch('https://pokeapi.co/api/v2/type');
+        const data = await response.json();
+        
+        const types = data.results.map( async (t) => {
+            const type = await Type.findOne({ where: { name: t.name } })
+            
+            if (type === null) {
+                await Type.create({
+                name: t.name
+                });
+            }
+        });
+        
+        const aux = await Promise.all(types)
+        const typesDb = await Type.findAll();
+        res.json(typesDb)
+    } catch (error) {
+        res.status(404).json(error)
+    }
 
 })
 
 router.post("/pokemons", async(req, res) => {
-    try{
-        const newPokemon = await Pokemon.create(req.body);
+    const {name, hp, atk, def, speed, height, weight, types} = req.body;
 
-        res.status(200).json(newPokemon)
+    try{
+        const newPokemon = await Pokemon.create({name, hp, atk, def, speed, height, weight});
+        newPokemon.setType(types)
+
+        res.status(200).json({message: "pokemon creado"})
     }catch(e){
         res.status(404).json({message: "F"})
     }

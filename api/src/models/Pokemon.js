@@ -12,7 +12,7 @@ module.exports = (sequelize) => {
 
   */
   sequelize.define('Pokemon', {
-    ID: {
+    id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
