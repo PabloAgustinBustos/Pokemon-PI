@@ -14,7 +14,16 @@ router.get("/", (req, res) => {
     res.json({message: "good"})
 })
 
-async function getPokemon(res){
+function getPokemon(res){
+    const {types} = res;
+
+    const newTypes = types.map(t => {
+        return {
+            id: t.slot,
+            name: t.type.name
+        }
+    })
+
     return{
         sprite: res.sprites.front_default,
         id: res.id,
@@ -24,7 +33,8 @@ async function getPokemon(res){
         def: res.stats[2].base_stat,
         speed: res.stats[5].base_stat,
         height: res.height,
-        weight: res.weight
+        weight: res.weight,
+        types: newTypes
     }
 }
 
@@ -57,40 +67,54 @@ router.get("/pokemons", async(req, res) => {
         // si no hay query name, se busca a todos
         if(!name){
             // result = await axios("https://pokeapi.co/api/v2/pokemon?offset=0&limit=40");
-            result = await axios("https://pokeapi.co/api/v2/pokemon?offset=0&limit=6");         //primero agarro los datos de la API
+            result = await axios("https://pokeapi.co/api/v2/pokemon?offset=0&limit=2");         //primero agarro los datos de la API
 
             pokemonsAPI = await getPokemons(result.data.results);                               //luego armo el array de pokemons como lo quiero
     
             pokemonDB = await Pokemon.findAll({                                                 //también los busco en la DB
-                include: Type,
+                include: {
+                    model: Type,
+                    attributes: ["id", "name"],
+
+                    through:{
+                        attributes: []
+                    }
+                },
             });
 
             myPokemons = pokemonDB.map(p => p.dataValues);                                      //y armo el array de pokemons de DB como yo los quiero
 
             pokemons = [...pokemonsAPI, ...myPokemons]                                          //los junto
 
-            res.status(200).json(pokemons);
+            res.json(pokemons);
         }else{
-            console.log("voy a buscar a " + name)
             pokemonDB = await Pokemon.findOne({   
                 where: {
                     name
-                }
+                },
+
+                include: {
+                    model: Type,
+                    attributes: ["id", "name"],
+
+                    through:{
+                        attributes: []
+                    }
+                },
             });
 
             if(pokemonDB){
-                res.status(200).json(pokemonDB.dataValues);
-            }else if(pokemonDB === null){
+                res.json(pokemonDB.dataValues);
+            }else{
                 result = await axios(`https://pokeapi.co/api/v2/pokemon/${name}`);
+
+                pokemon = getPokemon(result.data);
     
-                pokemon = await getPokemon(result.data);
-    
-                res.status(200).json(pokemon);
+                res.json(pokemon);
             }
-            res.status(200).json({message: "mandado"})
         }
     }catch(e){
-        res.status(404).json(e);
+        res.status(404).json({error: "no existe ese pokemon"});
     }
 })
 
@@ -106,14 +130,21 @@ router.get("/pokemons/:idPokemon", async(req, res) => {
                     id: idPokemon
                 },
                 
-                include: Type,
+                include: {
+                    model: Type,
+                    attributes: ["id", "name"],
+
+                    through:{
+                        attributes: []
+                    }
+                },
             });
         
             res.json(pokemon);
         }else{
             const result = await axios(`https://pokeapi.co/api/v2/pokemon/${idPokemon}`);
     
-            pokemon = await getPokemon(result.data);
+            pokemon = getPokemon(result.data);
     
             res.json(pokemon);
         }
@@ -122,27 +153,26 @@ router.get("/pokemons/:idPokemon", async(req, res) => {
     }
 })
 
-// TODO todo el GET de types
 router.get("/types", async(req, res) => {
-    
-
     try {
-        const response = await fetch('https://pokeapi.co/api/v2/type');
-        const data = await response.json();
-        
-        const types = data.results.map( async (t) => {
-            const type = await Type.findOne({ where: { name: t.name } })
-            
-            if (type === null) {
-                await Type.create({
-                name: t.name
-                });
+        const result = await axios('https://pokeapi.co/api/v2/type');
+        const types = result.data.results
+
+        for(let type of types){
+            let {name} = type;
+
+            const typeBD = await Type.findOne({
+                where: {
+                    name
+                }
+            })
+
+            if(!typeBD){
+                await Type.create({name})
             }
-        });
-        
-        const aux = await Promise.all(types)
-        const typesDb = await Type.findAll();
-        res.json(typesDb)
+        }
+
+        res.json(types);
     } catch (error) {
         res.status(404).json(error)
     }
@@ -151,14 +181,16 @@ router.get("/types", async(req, res) => {
 
 router.post("/pokemons", async(req, res) => {
     const {name, hp, atk, def, speed, height, weight, types} = req.body;
-
+    
     try{
         const newPokemon = await Pokemon.create({name, hp, atk, def, speed, height, weight});
-        newPokemon.setType(types)
 
-        res.status(200).json({message: "pokemon creado"})
+        await newPokemon.setTypes(types);
+
+
+        return res.json({message: "pokemon creado"})
     }catch(e){
-        res.status(404).json({message: "F"})
+        return res.status(404).json({message: "F"})
     }
 })
 
