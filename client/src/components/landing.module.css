@@ -1,0 +1,92 @@
+
+@media (max-width: 426px){
+    .landing{
+        height: 100vh;
+    
+        /* centra el div al medio */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .pokeball{
+        width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .container{
+        height: 70%;
+    
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+}
+
+@media (max-width: 800px){
+    .landing{
+        height: 100vh;
+    
+        /* centra el div al medio */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .pokeball{
+        width: 150px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .container{
+        height: 70%;
+    
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+}
+
+@media (min-width: 801px){
+    .landing{
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .pokeball{
+        width: 300px;
+    }
+    
+    .container{
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+}
+
+@media (min-width: 802px){
+    .landing{
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .pokeball{
+        width: 500px;
+    }
+    
+    .container{
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    .text{
+        font-size: 3.5em;
+    }
+}
