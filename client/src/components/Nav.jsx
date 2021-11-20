@@ -1,27 +1,32 @@
+import { useEffect } from "react";
 import { useState } from "react";
-import nav from "./nav.module.css";
+import { useSelector, useDispatch } from "react-redux";
 
-export default function Nav(){
-    const [left, setLeft] = useState(nav.off);
-    const [right, setRight] = useState(nav.off);
+import Filter from "./Filter";
+import nav from "./nav.module.css";
+import SearchBar from "./SearchBar";
+import {setLeft, setRight} from "./../store/actions.js"
+
+export default function Nav(){  
+    let left = useSelector(state => state?.left)
+    let right = useSelector(state => state?.right)
+    const dispatch = useDispatch();
 
     return(
         <div>
             <nav className={nav.nav}>
                 <span className={nav.buttons}>
-                    <span className={`${nav.icon} material-icons-outlined`} onClick={() => setLeft(nav.on)}>filter_alt</span>
-                    <span className={`${nav.icon} material-icons-outlined`} onClick={() => setRight(nav.on)}>search</span>
+                    <span className={`${nav.icon} material-icons-outlined`} onClick={() => dispatch(setLeft(nav.on))}>filter_alt</span>
+                    <span className={`${nav.icon} material-icons-outlined`} onClick={() => dispatch(setRight(nav.on))}>search</span>
                 </span>
             </nav>
             
             <div className={`${nav.filterSpan} ${left}`}>
-                <h2>filter</h2>
-                <span className={nav.exit} onClick={() => {setLeft(nav.off)}}>X</span>
+                <Filter/>
             </div>
 
             <div className={`${nav.searchSpan} ${right}`}>
-                <h2>search</h2>
-                <span className={nav.exit} onClick={() => {setRight(nav.off)}}>X</span>
+                <SearchBar/>
             </div>
         </div>
     )
