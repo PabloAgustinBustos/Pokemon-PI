@@ -5,6 +5,7 @@ import nav from "./nav.module.css";
 import SearchBar from "./SearchBar";
 import {setLeft, setRight, setSort} from "./../store/actions.js"
 import Sort from "./Sort";
+import { useEffect } from "react";
 
 export default function Nav(){  
     let left = useSelector(state => state?.left) || nav.off;
@@ -12,6 +13,11 @@ export default function Nav(){
     let sort = useSelector(state => state?.sort) || nav.off;
 
     const dispatch = useDispatch();
+    console.log(dispatch);
+
+    useEffect(() => {
+        console.log(left);
+    }, [left])
 
     return(
         <div>

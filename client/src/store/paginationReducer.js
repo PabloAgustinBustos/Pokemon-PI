@@ -12,6 +12,9 @@ export function paginationReducer(state={page: 1, total:0}, {type, payload}){
                 ...state,
                 total: payload
             }
+        
+        default:
+            return state;
+
     }
-    return state;
 }

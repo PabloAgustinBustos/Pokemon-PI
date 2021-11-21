@@ -1,7 +1,25 @@
 .container{
+    /* height: 100vh; */
     padding-top: 100px;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
 }
 
+@media (max-width: 425px){
+    .container{
+        padding-bottom: 60px;
+    }
+}
+
+@media (min-width: 426px) and (max-width: 759px){
+    .container{
+        padding-bottom: 260px;
+    }
+}
+
+@media (min-width: 760px){
+    .container{
+        padding-bottom: 200px;
+    }
+}

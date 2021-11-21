@@ -1,4 +1,3 @@
-import { NavLink } from "react-router-dom";
 import pagination from "./pagination.module.css";
 
 export default function Pagination({pag, total, onChange}){
@@ -8,7 +7,7 @@ export default function Pagination({pag, total, onChange}){
         const res = [];
 
         for(let i = 1; i <= total; i++){
-            res.push(<a onClick={() => {onChange(i)}} className={pag === i ? `${pagination.active}` : ""}>{i}</a>)
+            res.push(<span key={i} onClick={() => {onChange(i)}} className={pag === i ? `${pagination.active}` : ""}>{i}</span>)
         }
 
         return res;

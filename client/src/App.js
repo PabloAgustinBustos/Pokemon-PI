@@ -31,17 +31,15 @@ function App() {
 
   return (
     <div className="App">
-      <Route exact path="/">
+      {/* <Route exact path="/">
         <Landing/>
-      </Route>
+      </Route> */}
 
       <Route path="/pokemons">
         <Nav/>
-        
+      
         <PokeContainer class_name="pokeContainer">
-
-          {pokemonFragment?.map(p => <Card key={p?.name} name={p?.name} image={p?.sprite} types={p?.types}/>)}
-          
+          {pokemonFragment.length > 0 ? pokemonFragment?.map(p => <Card key={p?.name} name={p?.name} image={p?.sprite} types={p?.types}/>) : "cargando"}
         </PokeContainer>
         
         <Pagination pag={pag} total={Math.ceil(pokemons.length/12)} onChange={(newPage) => setPag(newPage)}/>

@@ -21,7 +21,10 @@ export function menuReducer(state={left: nav.off, right: nav.off, sort: nav.off}
                 ...state,
                 sort: payload
             }
+
+        default:
+            return state;
+
     }
 
-    return state;
 }

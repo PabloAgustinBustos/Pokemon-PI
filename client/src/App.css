@@ -5,6 +5,8 @@
   background-image: url("./background.jpg");
   background-position: center center;
   background-attachment: fixed;
+  position: relative;
+  
 }
 
 .App-logo {

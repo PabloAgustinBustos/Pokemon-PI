@@ -1,10 +1,13 @@
 .pagination{
+    width: 100%;
     background-color: rgb(216, 65, 95);
     font-size: 40px;
 
     display: flex;
     flex-direction: row-reverse;
-    
+
+    position: fixed;
+    bottom: 0;
 }
 
 .pages{
@@ -18,4 +21,14 @@
 
 .active{
     color: rgb(41, 172, 201);
+}
+
+@media (max-width: 759px){
+    .pagination{
+        font-size: 20px;
+    }
+
+    .pages{
+        width: 30%;
+    }
 }
