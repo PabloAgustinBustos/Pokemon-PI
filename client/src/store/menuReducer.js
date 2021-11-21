@@ -1,8 +1,8 @@
-import { SET_LEFT, SET_RIGHT } from "./actions";
+import { SET_LEFT, SET_RIGHT, SET_SORT } from "./actions";
 
 import nav from "../components/nav.module.css";
 
-export function menuReducer(state={left: nav.off, right: nav.off}, {type, payload}){
+export function menuReducer(state={left: nav.off, right: nav.off, sort: nav.off}, {type, payload}){
     switch(type){
         case SET_LEFT:
             return{
@@ -15,5 +15,13 @@ export function menuReducer(state={left: nav.off, right: nav.off}, {type, payloa
                 ...state,
                 right: payload
             }
+
+        case SET_SORT:
+            return{
+                ...state,
+                sort: payload
+            }
     }
+
+    return state;
 }

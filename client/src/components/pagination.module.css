@@ -1,0 +1,21 @@
+.pagination{
+    background-color: rgb(216, 65, 95);
+    font-size: 40px;
+
+    display: flex;
+    flex-direction: row-reverse;
+    
+}
+
+.pages{
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.active{
+    color: rgb(41, 172, 201);
+}

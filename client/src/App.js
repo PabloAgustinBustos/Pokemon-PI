@@ -7,9 +7,12 @@ import PokeContainer from './components/PokeContainer.jsx';
 
 import axios from "axios";
 import Card from './components/Card';
+import Pagination from './components/Pagination';
 
 function App() {
   const [pokemons, setPokemons] = useState([]);
+  const [pokemonFragment, setPokemonFragment] = useState([]);
+  const [pag, setPag] = useState(1);
 
   useEffect(() => {
     (async() => {
@@ -18,6 +21,13 @@ function App() {
     })()    
   }, []);
 
+  // fragmenta el array de pokemons para tener 12
+  useEffect(() => {
+    setPokemonFragment(pokemons.slice(
+      (pag - 1) * 12,
+      pag * 12
+    ))
+  }, [pokemons, pag]);
 
   return (
     <div className="App">
@@ -29,10 +39,14 @@ function App() {
         <Nav/>
         
         <PokeContainer class_name="pokeContainer">
-          {pokemons.map(p => <Card key={p?.name} name={p?.name} image={p?.sprite} types={p?.types}/>)}
+
+          {pokemonFragment?.map(p => <Card key={p?.name} name={p?.name} image={p?.sprite} types={p?.types}/>)}
           
         </PokeContainer>
+        
+        <Pagination pag={pag} total={Math.ceil(pokemons.length/12)} onChange={(newPage) => setPag(newPage)}/>
       </Route>
+
     </div>
   );
 }

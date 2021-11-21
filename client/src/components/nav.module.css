@@ -1,12 +1,14 @@
+.nav{  
+  width: 100%;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: rgb(216, 65, 95);
+  position: fixed;
+}
+
 @media (max-width: 759px){
     .nav{
-        
-      width: 100%;
       height: 50px;
-      border-bottom-left-radius: 50px;
-      border-bottom-right-radius: 50px;
-      background-color: rgb(216, 65, 95);
-      position: fixed;
     }
     .icon{
       font-size: 40px;
@@ -25,10 +27,19 @@
         top: 0;
         left: 0;
 
-        
-
         background-color: rgb(216, 65, 95);;
     }
+
+    .sortSpan{
+      width: 70%;
+      height: 100vh;
+
+      position: fixed;
+      top: 0;
+      left: 0;
+
+      background-color: rgb(216, 65, 95);
+  }
 
     .searchSpan{
         width: 70%;
@@ -40,7 +51,7 @@
 
         
 
-        background-color: rgb(216, 65, 95);;
+        background-color: rgb(216, 65, 95);
     }
 
     .off{
@@ -59,15 +70,17 @@
         top: 5px;
         right: 25px;
     }
+    .filter{
+      display: flex;
+      justify-content: space-around;
+    }
   }
   
   @media (min-width: 760px){
     .nav{
-      height: 50px;
-      border-bottom-left-radius: 50px;
-      border-bottom-right-radius: 50px;
-      background-color: rgb(216, 65, 95);
+      height: 70px;
     }
+
     .icon{
       display: none;
     }
@@ -88,11 +101,29 @@
     justify-content: space-around;
   }
 
+  .filterSpan{
+    width: 300px;
+  
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
+
+  .sortSpan{
+    position: fixed;
+    top: 20px;
+    right: 0;
+}
+
   .exit{
     display: none;
   }
 
   .title{
     display: none;
+  }
+
+  .container{
+    display: flex;
   }
 }
