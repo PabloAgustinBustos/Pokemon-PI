@@ -1,0 +1,32 @@
+.card{
+    margin-bottom: 15px;
+    width: 150px;
+    height: auto;
+    background-color: rgba(240, 248, 255, 0.77);
+    border-radius: 10px;
+}
+
+.image{
+    width: 120px;
+    
+}
+
+.name{
+    margin: 0;
+}
+
+.types{
+    display: flex;
+    justify-content: space-around;
+}
+
+@media (min-width: 760px){
+    .card{
+        width: 300px;
+    }   
+
+    .image{
+        width: 250px;
+        
+    }
+}

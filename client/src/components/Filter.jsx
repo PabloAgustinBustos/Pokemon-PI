@@ -8,7 +8,7 @@ export default function Filter(){
     const dispatch = useDispatch()
     return(
         <>
-            <h2>filter</h2>
+            <h2 className={nav.title}>filter</h2>
             <span className={nav.exit} onClick={() => {dispatch(setLeft(nav.off))}}>X</span>
         </>
     )

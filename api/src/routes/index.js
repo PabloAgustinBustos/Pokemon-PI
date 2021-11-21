@@ -67,7 +67,7 @@ router.get("/pokemons", async(req, res) => {
         // si no hay query name, se busca a todos
         if(!name){
             // result = await axios("https://pokeapi.co/api/v2/pokemon?offset=0&limit=40");
-            result = await axios("https://pokeapi.co/api/v2/pokemon?offset=0&limit=2");         //primero agarro los datos de la API
+            result = await axios("https://pokeapi.co/api/v2/pokemon?offset=0&limit=10");         //primero agarro los datos de la API
 
             pokemonsAPI = await getPokemons(result.data.results);                               //luego armo el array de pokemons como lo quiero
     

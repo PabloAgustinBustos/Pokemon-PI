@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/index.js');
 const { default: axios } = require('axios');
+var cors = require('cors')
+
 
 const {Pokemon, Type, conn} = require("./db");
 
@@ -24,6 +26,7 @@ server.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
   next();
 });
+server.use(cors())
 
 server.use('/', routes);
 
@@ -32,7 +35,7 @@ server.use(async(err, req, res, next) => { // eslint-disable-line no-unused-vars
   const status = err.status || 500;
   const message = err.message || err;
   console.error(err);
-
+  
   res.status(status).send(message);
 });
 

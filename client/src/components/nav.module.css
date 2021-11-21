@@ -75,4 +75,24 @@
     .button{
         display: none;
     }
+
+  .searchSpan{
+    width: 300px;
+    margin-left: 50px;
+    height: auto;
+
+    position: fixed;
+    top: 0;
+    
+    display: flex;
+    justify-content: space-around;
   }
+
+  .exit{
+    display: none;
+  }
+
+  .title{
+    display: none;
+  }
+}
