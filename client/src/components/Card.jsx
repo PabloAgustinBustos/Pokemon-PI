@@ -1,6 +1,7 @@
 import card from "./card.module.css"
 
 export default function Card({image, name, types}){
+    console.log(name + ": " + types)
     return(
         <div className={card.card} onClick={e => {
             console.log(e.target.classList[1])

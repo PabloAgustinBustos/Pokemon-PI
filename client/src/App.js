@@ -25,12 +25,15 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log("sea ctualizó la DB")
     setPokemonFragment(pokemons.slice(
       (pag - 1) * 12,
       pag * 12
     ))
   }, [pokemons, pag]);
+
+  useEffect(() => {
+    console.log(pokemonFragment)
+  }, [pokemonFragment])
 
   return (
     <div className="App">
@@ -42,7 +45,7 @@ function App() {
         <Nav/>
       
         <PokeContainer class_name="pokeContainer">
-          {pokemonFragment.length > 0 ? pokemonFragment?.map(p => <Card key={p?.name} name={p?.name} image={p?.sprite} types={p?.types}/>) : <Loading/>}
+          {pokemonFragment.length > 0 ? pokemonFragment?.map(p => <Card key={p?.name} name={p?.name} image={p?.sprite} types={p?.types || p?.Types}/>) : <Loading/>}
           
         </PokeContainer>
         

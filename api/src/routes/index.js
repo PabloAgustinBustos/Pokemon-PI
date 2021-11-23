@@ -188,7 +188,7 @@ router.post("/pokemons", async(req, res) => {
         await newPokemon.setTypes(types);
 
 
-        return res.json({message: "pokemon creado"})
+        return res.json({message: "pokemon creado con exito"})
     }catch(e){
         return res.status(404).json({message: "F"})
     }
