@@ -23,6 +23,10 @@
     color: rgb(41, 172, 201);
 }
 
+.num:hover{
+    cursor: pointer;
+}
+
 @media (max-width: 759px){
     .pagination{
         font-size: 20px;

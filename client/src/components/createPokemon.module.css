@@ -1,0 +1,50 @@
+.container{
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+
+
+@media (max-width: 759px){
+    .form{
+        width: 300px;
+        height: 100%;
+        background-color: rgb(216, 65, 95);
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+}
+
+@media (min-width: 760px){
+    .form{
+        width: 600px;
+        height: auto;
+        padding-bottom: 20px;
+        
+        background-color: rgb(216, 65, 95);
+        position: relative;
+    }
+
+    .inputs{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .inputText{
+        width: 200px;
+    }
+
+    .container{
+        width: 200px;
+        margin-left: 0;
+        margin-right: 0;
+        
+        display: grid;
+        grid-template-columns: 50% 50%;
+    }
+}

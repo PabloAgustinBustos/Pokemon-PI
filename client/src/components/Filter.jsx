@@ -17,10 +17,6 @@ export default function Filter(){
         })()    
     }, []);
 
-    useEffect(() => {
-        console.log(types);
-    }, [types])
-
     return(
         <>
             <h2 className={nav.title}>filter</h2>
