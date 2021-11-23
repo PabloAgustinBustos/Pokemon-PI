@@ -6,6 +6,7 @@ import nav from "./nav.module.css";
 import btn from "./searchBar.module.css";
 
 import { setCreate, createPokemon} from '../store/actions';
+import {getPokemons} from "../store/actions";
 import { useDispatch } from 'react-redux';
 
 export default function CreatePokemon(){
@@ -34,6 +35,7 @@ export default function CreatePokemon(){
             e.preventDefault();
             dispatch(createPokemon(values))
             dispatch(setCreate(nav.createOff))
+            dispatch(getPokemons())
         }} className={create.form}>
             <h2 className={nav.addTitle}>create pokemon</h2>
             <span className={nav.createExit} onClick={() => {dispatch(setCreate(nav.createOff))}}>X</span>

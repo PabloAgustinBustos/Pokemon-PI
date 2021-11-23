@@ -5,25 +5,27 @@ import Nav from './components/Nav.jsx';
 import React, { useState, useEffect } from 'react';
 import PokeContainer from './components/PokeContainer.jsx';
 
-import axios from "axios";
+// import axios from "axios";
 import Card from './components/Card';
 import Pagination from './components/Pagination';
 import Loading from './components/Loading';
+import { useDispatch, useSelector } from 'react-redux';
+import {getPokemons} from "./store/actions";
 
 function App() {
-  const [pokemons, setPokemons] = useState([]);
+  // const [pokemons, setPokemons] = useState([]);
   const [pokemonFragment, setPokemonFragment] = useState([]);
   const [pag, setPag] = useState(1);
+  const pokemons = useSelector(state => state.pokemons);
+  const dispatch = useDispatch();
 
+    // acá se debe hacer la petición al servidor
   useEffect(() => {
-    (async() => {
-      const pokemons = await axios("http://localhost:3001/pokemons");
-      setPokemons(pokemons.data);
-    })()    
+    dispatch(getPokemons())
   }, []);
 
-  // fragmenta el array de pokemons para tener 12
   useEffect(() => {
+    console.log("sea ctualizó la DB")
     setPokemonFragment(pokemons.slice(
       (pag - 1) * 12,
       pag * 12
@@ -45,6 +47,7 @@ function App() {
         </PokeContainer>
         
         <Pagination pag={pag} total={Math.ceil(pokemons.length/12)} onChange={(newPage) => setPag(newPage)}/>
+        {/* <Pagination/> */}
       </Route>
 
     </div>

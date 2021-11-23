@@ -123,6 +123,10 @@
       font-size: 40px;
     }
 
+    .createIcon:hover{
+      cursor: pointer;
+    }
+
   .searchSpan{
     width: 300px;
     margin-left: 50px;

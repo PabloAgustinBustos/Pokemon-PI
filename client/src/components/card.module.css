@@ -25,6 +25,10 @@
         width: 300px;
     }   
 
+    .card:hover{
+        cursor: pointer;
+    }   
+
     .image{
         width: 250px;
         

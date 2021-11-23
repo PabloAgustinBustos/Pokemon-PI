@@ -1,10 +1,10 @@
 import axios from "axios";
 
-import { SET_LEFT, SET_RIGHT, SET_SORT, SET_CREATE, CREATE_POKEMON } from "./actions";
+import { SET_LEFT, SET_RIGHT, SET_SORT, SET_CREATE, CREATE_POKEMON, GET_POKEMONS, GET_POKEFRAGMENT } from "./actions";
 
 import nav from "../components/nav.module.css";
 
-export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, create: nav.createOff, created: ""}, {type, payload}){
+export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, create: nav.createOff, created: "", pokemons: [], pokeFragment:[]}, {type, payload}){
     switch(type){
         case SET_LEFT:
             return{
@@ -31,24 +31,24 @@ export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, cre
                 create: payload
             }
 
-        case CREATE_POKEMON:
-            console.log("voy a crear un pokemon")
-
-            console.log(payload)
-            
-            axios({method: "POST", url: "http://localhost:3001/pokemons", data: payload})
-            .then(res => {
-                console.log(res);
-            }).catch(e => {
-                console.log("hubo un error")
-            })
-            
+        case CREATE_POKEMON:               
             return{
                 ...state,
                 created: "creado"
             }
 
+        case GET_POKEMONS:
+            return{
+                ...state,
+                pokemons: payload
+            }
             
+        case GET_POKEFRAGMENT:
+            console.log("se cambiará el contenido")
+            return{
+                ...state,
+                pokeFragment: payload
+            }           
 
         default:
             return state;

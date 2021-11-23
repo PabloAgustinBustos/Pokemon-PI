@@ -1,8 +1,6 @@
 import pagination from "./pagination.module.css";
 
 export default function Pagination({pag, total, onChange}){
-    
-
     const getPages = () => {
         const res = [];
 
