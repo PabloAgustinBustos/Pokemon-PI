@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import {setRight, getPokemon} from "./../store/actions.js"
+import {setRight, getPokemon, reset} from "./../store/actions.js"
 import nav from "./nav.module.css";
 import searchBar from "./searchBar.module.css"
 
@@ -17,6 +17,7 @@ export default function SearchBar(){
             <input type="text" placeholder="search by name" onChange={(e) => {setPokeName(e.target.value)}}/>
             <br/><br/>
             <button className={searchBar.button} onClick={() => {
+                dispatch(reset());
                 dispatch(getPokemon(pokeName));
                 dispatch(setRight(nav.off))
             }}>search</button>

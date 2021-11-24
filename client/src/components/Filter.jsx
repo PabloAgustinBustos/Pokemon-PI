@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import {setLeft, filterByType, reset} from "./../store/actions.js"
+import {setLeft, filterByType, reset, filterByOrigin, getPokemons} from "./../store/actions.js"
 import nav from "./nav.module.css";
 
 import axios from "axios";
@@ -36,7 +36,14 @@ export default function Filter(){
 
                 <span>
                     <label>origin </label>
-                    <select>
+                    <select onChange={e => {
+                        dispatch(reset())
+                        if(e.target.value === "all"){
+                            dispatch(getPokemons());
+                        }else{
+                            dispatch(filterByOrigin(e.target.value))
+                        }
+                    }}>
                         <option value="all">all</option>
                         <option value="API">API</option>
                         <option value="DB">DB</option>

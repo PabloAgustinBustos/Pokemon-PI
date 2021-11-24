@@ -25,10 +25,14 @@ function App() {
   }, []);
 
   useEffect(() => {
-    setPokemonFragment(pokemons.slice(
-      (pag - 1) * 12,
-      pag * 12
-    ))
+    if(Array.isArray(pokemons)){
+      setPokemonFragment(pokemons.slice(
+        (pag - 1) * 12,
+        pag * 12
+      ));
+    }else{
+      setPokemonFragment([pokemons]);
+    }
   }, [pokemons, pag]);
 
   return (

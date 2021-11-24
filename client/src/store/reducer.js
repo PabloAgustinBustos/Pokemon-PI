@@ -1,9 +1,10 @@
-import { SET_LEFT, SET_RIGHT, SET_SORT, SET_CREATE, CREATE_POKEMON, GET_POKEMONS, GET_POKEFRAGMENT, GET_POKEMON, FILTER_BY_TYPE, RESET } from "./actions";
+import { SET_LEFT, SET_RIGHT, SET_SORT, SET_CREATE, CREATE_POKEMON, GET_POKEMONS, GET_POKEFRAGMENT, GET_POKEMON, FILTER_BY_TYPE, RESET, FILTER_BY_ORIGIN } from "./actions";
 
 import nav from "../components/nav.module.css";
 
 export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, create: nav.createOff, created: "", pokemons: [], backup: [], pokeFragment:[], pokemon: {}}, {type, payload}){
-    console.log(type)
+    let pokemons = undefined;
+    let pokemonFiltered = undefined;
     switch(type){
         case SET_LEFT:
             return{
@@ -45,7 +46,7 @@ export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, cre
         case GET_POKEMON:
             return{
                 ...state,
-                pokemon: payload
+                pokemons: payload
             }
             
         case GET_POKEFRAGMENT:
@@ -56,9 +57,9 @@ export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, cre
             }       
             
         case FILTER_BY_TYPE:
-            let pokemons = state.pokemons;
+            pokemons = state.pokemons;
 
-            let pokemonFiltered = [];
+            pokemonFiltered = [];
 
             if(payload === "default"){
                 pokemonFiltered = pokemons
@@ -71,6 +72,42 @@ export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, cre
                         return type.name === payload
                     }).length > 0
                 })
+            }
+
+            return{
+                ...state,
+                backup: pokemons,
+                pokemons: pokemonFiltered
+            }
+
+        case FILTER_BY_ORIGIN:
+            pokemons = state.pokemons;
+
+            pokemonFiltered = [];
+
+            console.log("se buscará por ", payload)
+
+            switch(payload){
+                case "API":
+                    pokemonFiltered = pokemons.filter(p => {
+                        console.log(p.id, "=>", typeof p.id == "number");
+
+
+                        return typeof p.id == "number";
+                        
+                    })
+                    break;
+                
+                case "DB":
+                    pokemonFiltered = pokemons.filter(p => {
+                        console.log(p.id, "=>", typeof p.id == "string");
+                        return typeof p.id == "string";
+                    })
+                    break;
+
+                case "all":
+                    pokemonFiltered = state.backup;
+                    break;
             }
 
             return{

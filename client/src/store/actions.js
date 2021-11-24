@@ -11,6 +11,7 @@ export const GET_POKEMONS = "GET_POKEMONS";
 export const GET_POKEFRAGMENT = "GET_POKEFRAGMENT";
 export const GET_POKEMON = "GET_POKEMON";
 export const FILTER_BY_TYPE = "FILTER_BY_TYPE";
+export const FILTER_BY_ORIGIN = "FILTER_BY_ORIGIN";
 export const RESET = "RESET";
 
 export function setLeft(payload){
@@ -89,13 +90,20 @@ export function getPokeFragment(payload){
 export function getPokemon(payload){
     console.log("se busca a " + payload + " en el servidor")
     return async (dispatch) => {
-        const pokemon = await axios("http://localhost:3001/pokemons?name=" + payload);
-
-        console.log("lo tengo", pokemon.data)
+        let pokemon;
+        
+        try{
+            pokemon = await axios("http://localhost:3001/pokemons?name=" + payload);
+    
+            console.log("lo tengo", pokemon)
+        }catch(e){
+            console.log("error", e);
+            console.log(pokemon);
+        }
 
         return dispatch({
             type: GET_POKEMON,
-            payload: pokemon.data
+            payload: pokemon?.data || [{name: "error no existe el pokemon"}]
         })
     }
 }
@@ -103,6 +111,13 @@ export function getPokemon(payload){
 export function filterByType(payload){
     return {
         type: FILTER_BY_TYPE,
+        payload
+    }
+}
+
+export function filterByOrigin(payload){
+    return {
+        type: FILTER_BY_ORIGIN,
         payload
     }
 }
