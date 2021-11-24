@@ -31,10 +31,6 @@ function App() {
     ))
   }, [pokemons, pag]);
 
-  useEffect(() => {
-    console.log(pokemonFragment)
-  }, [pokemonFragment])
-
   return (
     <div className="App">
       <Route exact path="/">
@@ -46,11 +42,9 @@ function App() {
       
         <PokeContainer class_name="pokeContainer">
           {pokemonFragment.length > 0 ? pokemonFragment?.map(p => <Card key={p?.name} name={p?.name} image={p?.sprite} types={p?.types || p?.Types}/>) : <Loading/>}
-          
         </PokeContainer>
         
         <Pagination pag={pag} total={Math.ceil(pokemons.length/12)} onChange={(newPage) => setPag(newPage)}/>
-        {/* <Pagination/> */}
       </Route>
 
     </div>

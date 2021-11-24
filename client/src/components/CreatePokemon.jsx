@@ -128,7 +128,6 @@ export default function CreatePokemon(){
                             const newTypes = [];
 
                             prev.types.forEach(t => {
-                                console.log(t + " === " + value + "?");
                                 if(t !== value){
                                     newTypes.push(t)
                                 }

@@ -9,6 +9,9 @@ export const SET_CREATE = "SET_CREATE";
 export const CREATE_POKEMON = "CREATE_POKEMON";
 export const GET_POKEMONS = "GET_POKEMONS";
 export const GET_POKEFRAGMENT = "GET_POKEFRAGMENT";
+export const GET_POKEMON = "GET_POKEMON";
+export const FILTER_BY_TYPE = "FILTER_BY_TYPE";
+export const RESET = "RESET";
 
 export function setLeft(payload){
     return{
@@ -79,6 +82,34 @@ export function getPokemons(payload){
 export function getPokeFragment(payload){
     return{
         type: GET_POKEFRAGMENT,
+        payload
+    }
+}
+
+export function getPokemon(payload){
+    console.log("se busca a " + payload + " en el servidor")
+    return async (dispatch) => {
+        const pokemon = await axios("http://localhost:3001/pokemons?name=" + payload);
+
+        console.log("lo tengo", pokemon.data)
+
+        return dispatch({
+            type: GET_POKEMON,
+            payload: pokemon.data
+        })
+    }
+}
+
+export function filterByType(payload){
+    return {
+        type: FILTER_BY_TYPE,
+        payload
+    }
+}
+
+export function reset(payload){
+    return{
+        type: RESET,
         payload
     }
 }

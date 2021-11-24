@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import {setLeft} from "./../store/actions.js"
+import {setLeft, filterByType, reset} from "./../store/actions.js"
 import nav from "./nav.module.css";
 
 import axios from "axios";
@@ -25,7 +25,10 @@ export default function Filter(){
             <div className={nav.filter}>
                 <span>
                     <label>type </label>
-                    <select>
+                    <select onChange={e => {
+                        dispatch(reset())
+                        dispatch(filterByType(e.target.value))
+                    }}>
                         <option value="default">default</option>
                         {types.map(t => <option key={t.name} value={t.name}>{t.name}</option>)}
                     </select>
@@ -34,6 +37,7 @@ export default function Filter(){
                 <span>
                     <label>origin </label>
                     <select>
+                        <option value="all">all</option>
                         <option value="API">API</option>
                         <option value="DB">DB</option>
                     </select>

@@ -16,10 +16,6 @@ export default function Nav(){
 
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        console.log(create);
-    }, [create])
-
     return(
         <div>
             <nav className={nav.nav}>
