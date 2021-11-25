@@ -11,6 +11,7 @@ import Pagination from './components/Pagination';
 import Loading from './components/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import {getPokemons} from "./store/actions";
+import PokeInfo from './components/PokeInfo';
 
 function App() {
   // const [pokemons, setPokemons] = useState([]);
@@ -41,7 +42,7 @@ function App() {
         <Landing/>
       </Route>
 
-      <Route path="/pokemons">
+      <Route exact path="/pokemons">
         <Nav/>
       
         <PokeContainer class_name="pokeContainer">
@@ -49,6 +50,10 @@ function App() {
         </PokeContainer>
         
         <Pagination pag={pag} total={Math.ceil(pokemons.length/12)} onChange={(newPage) => setPag(newPage)}/>
+      </Route>
+
+      <Route exact path="/pokemons/:pokeName">
+        <PokeInfo/>
       </Route>
 
     </div>

@@ -1,10 +1,11 @@
-import { SET_LEFT, SET_RIGHT, SET_SORT, SET_CREATE, CREATE_POKEMON, GET_POKEMONS, GET_POKEFRAGMENT, GET_POKEMON, FILTER_BY_TYPE, RESET, FILTER_BY_ORIGIN } from "./actions";
+import { SET_LEFT, SET_RIGHT, SET_SORT, SET_CREATE, CREATE_POKEMON, GET_POKEMONS, GET_POKEMON, FILTER_BY_TYPE, RESET, FILTER_BY_ORIGIN, SORT, setCreate } from "./actions";
 
 import nav from "../components/nav.module.css";
 
-export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, create: nav.createOff, created: "", pokemons: [], backup: [], pokeFragment:[], pokemon: {}}, {type, payload}){
-    let pokemons = undefined;
-    let pokemonFiltered = undefined;
+export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, create: nav.createOff, created: "", default: [], pokemons: [], backup: [], pokemon: {}}, {type, payload}){
+    let pokemons;
+    let pokemonFiltered;
+    let pokemonsOrdered;
     switch(type){
         case SET_LEFT:
             return{
@@ -25,7 +26,6 @@ export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, cre
             }
 
         case SET_CREATE:
-            console.log("se abre/cierra la ventana")
             return{
                 ...state,
                 create: payload
@@ -38,46 +38,46 @@ export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, cre
             }
 
         case GET_POKEMONS:
+            console.log(payload)
             return{
                 ...state,
-                pokemons: payload
+                default: payload,
+                pokemons: payload,
+                backup: payload
             }
 
         case GET_POKEMON:
             return{
                 ...state,
                 pokemons: payload
-            }
-            
-        case GET_POKEFRAGMENT:
-            console.log("se cambiará el contenido")
-            return{
-                ...state,
-                pokeFragment: payload
             }       
             
         case FILTER_BY_TYPE:
+            //agarro los pokemons
             pokemons = state.pokemons;
 
             pokemonFiltered = [];
-
+            
             if(payload === "default"){
-                pokemonFiltered = pokemons
+                //si es default, los pokemons filtrados seran los actuales
+                pokemonFiltered = [...pokemons]
             }else{
                 pokemonFiltered = pokemons.filter(p => {
-                    let tipos=p.types?p.types:p.Types;
-                    return tipos.filter(type => {
-                        console.log(type);
-                        console.log(type.name === payload)
-                        return type.name === payload
-                    }).length > 0
+                    let tipos=p.types ? p.types : p.Types;  //extraigo el array de tipos
+                    
+                    console.log(p)
+
+                    //retorno el array filtrado
+                    return tipos.filter(type => type.name === payload).length > 0
                 })
             }
 
+            console.log(pokemonFiltered)
+
             return{
                 ...state,
-                backup: pokemons,
-                pokemons: pokemonFiltered
+                backup: pokemons, //n el backup tengo guardados todos los pokemons
+                pokemons: pokemonFiltered   //y los pokmons que renderizará sera solo los filtrados
             }
 
         case FILTER_BY_ORIGIN:
@@ -85,24 +85,13 @@ export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, cre
 
             pokemonFiltered = [];
 
-            console.log("se buscará por ", payload)
-
             switch(payload){
                 case "API":
-                    pokemonFiltered = pokemons.filter(p => {
-                        console.log(p.id, "=>", typeof p.id == "number");
-
-
-                        return typeof p.id == "number";
-                        
-                    })
+                    pokemonFiltered = pokemons.filter(p => typeof p.id == "number")
                     break;
                 
                 case "DB":
-                    pokemonFiltered = pokemons.filter(p => {
-                        console.log(p.id, "=>", typeof p.id == "string");
-                        return typeof p.id == "string";
-                    })
+                    pokemonFiltered = pokemons.filter(p => typeof p.id == "string")
                     break;
 
                 case "all":
@@ -122,6 +111,79 @@ export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, cre
                     pokemons: state.backup,
                     backup:[] 
                 }
+            }
+
+        case SORT:
+            pokemons = state.pokemons;
+            pokemonsOrdered = [];
+
+            switch(payload){
+                case "DEFAULT":
+                    pokemonsOrdered = state.default;
+                    break;
+
+                case "ASC":
+                    pokemonsOrdered = [...pokemons];
+
+                    for (let i = 0; i < pokemonsOrdered.length; i++) {
+                        for (let j = 0; j < (pokemonsOrdered.length - i - 1); j++) { 
+                            if(pokemonsOrdered[j].name.toLowerCase() > pokemonsOrdered[j+1].name.toLowerCase()) {
+                                let tmp = pokemonsOrdered[j]; 
+                                pokemonsOrdered[j] = pokemonsOrdered[j+1]; 
+                                pokemonsOrdered[j+1] = tmp; 
+                            }
+                        }   
+                    }
+                    break;
+
+                case "DESC":
+                    pokemonsOrdered = [...pokemons];
+
+                    for (let i = 0; i < pokemonsOrdered.length; i++) {
+                        for (let j = 0; j < (pokemonsOrdered.length - i - 1); j++) { 
+                            if(pokemonsOrdered[j].name.toLowerCase() < pokemonsOrdered[j+1].name.toLowerCase()) {
+                                let tmp = pokemonsOrdered[j]; 
+                                pokemonsOrdered[j] = pokemonsOrdered[j+1]; 
+                                pokemonsOrdered[j+1] = tmp; 
+                            }
+                        }   
+                    }
+                    break;
+
+                case "ATK_ASC":
+                    pokemonsOrdered = [...pokemons];
+
+                    for (let i = 0; i < pokemonsOrdered.length; i++) {
+                        for (let j = 0; j < (pokemonsOrdered.length - i - 1); j++) { 
+                            if(pokemonsOrdered[j].atk > pokemonsOrdered[j+1].atk) {
+                                let tmp = pokemonsOrdered[j]; 
+                                pokemonsOrdered[j] = pokemonsOrdered[j+1]; 
+                                pokemonsOrdered[j+1] = tmp; 
+                            }
+                        }   
+                    }
+
+                    break;
+
+                case "ATK_DESC":
+                    pokemonsOrdered = [...pokemons];
+
+                    for (let i = 0; i < pokemonsOrdered.length; i++) {
+                        for (let j = 0; j < (pokemonsOrdered.length - i - 1); j++) { 
+                            if(pokemonsOrdered[j].atk < pokemonsOrdered[j+1].atk) {
+                                let tmp = pokemonsOrdered[j]; 
+                                pokemonsOrdered[j] = pokemonsOrdered[j+1]; 
+                                pokemonsOrdered[j+1] = tmp; 
+                            }
+                        }   
+                    }
+                    break;
+            }
+
+            return{
+                ...state,
+                backup: pokemons,
+                pokemons: pokemonsOrdered
             }
 
         default:

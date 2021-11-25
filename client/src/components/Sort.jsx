@@ -1,11 +1,12 @@
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {setSort} from "./../store/actions.js"
+import {reset, setSort, sort} from "./../store/actions.js"
 import nav from "./nav.module.css";
 
 
 export default function Sort(){
     const dispatch = useDispatch();
-    
+
     return(
         <>
             <h2 className={nav.title}>Sort</h2>
@@ -13,11 +14,14 @@ export default function Sort(){
 
             <div className={nav.filter}>
                 <label>sort by </label>
-                <select>
-                    <option value="asc">asc</option>
-                    <option value="desc">desc</option>
-                    <option value="atk_asc">atk asc</option>
-                    <option value="atk_desc">atk desc</option>
+                <select onChange={(e) => {
+                    dispatch(sort(e.target.value))
+                }}>
+                    <option value="DEFAULT">default</option>
+                    <option value="ASC">asc</option>
+                    <option value="DESC">desc</option>
+                    <option value="ATK_ASC">atk asc</option>
+                    <option value="ATK_DESC">atk desc</option>
                 </select>
             </div>
         </>

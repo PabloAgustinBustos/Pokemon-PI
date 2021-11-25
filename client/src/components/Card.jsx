@@ -1,10 +1,10 @@
 import card from "./card.module.css"
 
 export default function Card({image, name, types}){
-    console.log(name)
+    //console.log(name)
     return(
         <div className={card.card} onClick={e => {
-            console.log(e.target.classList[1])
+            //console.log(e.target.classList[1])
         }}>
             <img className={`${card.image} ${name}`} src={image || "images/who_is_that.png"} alt="sprite"/>
             <h2 className={`${card.name} ${name}`}>{name}</h2>

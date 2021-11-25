@@ -13,6 +13,7 @@ export const GET_POKEMON = "GET_POKEMON";
 export const FILTER_BY_TYPE = "FILTER_BY_TYPE";
 export const FILTER_BY_ORIGIN = "FILTER_BY_ORIGIN";
 export const RESET = "RESET";
+export const SORT = "SORT";
 
 export function setLeft(payload){
     return{
@@ -125,6 +126,14 @@ export function filterByOrigin(payload){
 export function reset(payload){
     return{
         type: RESET,
+        payload
+    }
+}
+
+export function sort(payload){
+    console.log("ejecutando action")
+    return{
+        type: SORT,
         payload
     }
 }
