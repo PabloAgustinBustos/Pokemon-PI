@@ -1,6 +1,5 @@
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {reset, setSort, sort} from "./../store/actions.js"
+import {setSort, sort} from "./../store/actions.js"
 import nav from "./nav.module.css";
 
 

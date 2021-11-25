@@ -1,4 +1,4 @@
-import { SET_LEFT, SET_RIGHT, SET_SORT, SET_CREATE, CREATE_POKEMON, GET_POKEMONS, GET_POKEMON, FILTER_BY_TYPE, RESET, FILTER_BY_ORIGIN, SORT, setCreate } from "./actions";
+import { SET_LEFT, SET_RIGHT, SET_SORT, SET_CREATE, CREATE_POKEMON, GET_POKEMONS, GET_POKEMON, FILTER_BY_TYPE, RESET, FILTER_BY_ORIGIN, SORT } from "./actions";
 
 import nav from "../components/nav.module.css";
 
@@ -38,7 +38,6 @@ export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, cre
             }
 
         case GET_POKEMONS:
-            console.log(payload)
             return{
                 ...state,
                 default: payload,
@@ -97,6 +96,9 @@ export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, cre
                 case "all":
                     pokemonFiltered = state.backup;
                     break;
+
+                default:
+                    break;
             }
 
             return{
@@ -112,6 +114,7 @@ export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, cre
                     backup:[] 
                 }
             }
+            break;
 
         case SORT:
             pokemons = state.pokemons;
@@ -177,6 +180,9 @@ export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, cre
                             }
                         }   
                     }
+                    break;
+
+                default:
                     break;
             }
 

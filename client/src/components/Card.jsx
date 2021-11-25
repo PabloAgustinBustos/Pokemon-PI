@@ -1,10 +1,13 @@
+import { useHistory, useLocation, useParams } from "react-router"
 import card from "./card.module.css"
 
 export default function Card({image, name, types}){
     //console.log(name)
+    const history = useHistory();
+    const location = useLocation()
     return(
         <div className={card.card} onClick={e => {
-            //console.log(e.target.classList[1])
+            history.push(`${location.pathname}/${e.target.classList[1]}`)
         }}>
             <img className={`${card.image} ${name}`} src={image || "images/who_is_that.png"} alt="sprite"/>
             <h2 className={`${card.name} ${name}`}>{name}</h2>

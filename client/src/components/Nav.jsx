@@ -6,7 +6,6 @@ import SearchBar from "./SearchBar";
 import {setLeft, setRight, setSort, setCreate} from "./../store/actions.js"
 import Sort from "./Sort";
 import CreatePokemon from "./CreatePokemon.jsx";
-import { useEffect } from "react";
 
 export default function Nav(){  
     let left = useSelector(state => state?.left) || nav.off;
