@@ -2,7 +2,6 @@ import { useHistory, useLocation, useParams } from "react-router"
 import card from "./card.module.css"
 
 export default function Card({image, name, types}){
-    //console.log(name)
     const history = useHistory();
     const location = useLocation()
     return(

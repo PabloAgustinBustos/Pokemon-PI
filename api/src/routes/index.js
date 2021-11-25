@@ -47,8 +47,6 @@ async function getPokemons(res){
         const obj = await getPokemon(info.data);
         
         pokemons.push(obj);
-
-        console.log(pokemons.length)
     }
 
     return pokemons;
@@ -63,15 +61,22 @@ router.get("/pokemons", async(req, res) => {
     let myPokemons = [];
     let pokemon = {};
 
-    try{
-        // si no hay query name, se busca a todos
-        if(!name){
-            // result = await axios("https://pokeapi.co/api/v2/pokemon?offset=0&limit=40");
-            result = await axios("https://pokeapi.co/api/v2/pokemon?offset=0&limit=13");         //primero agarro los datos de la API
+    let pag1;
+    let pag2;
 
-            pokemonsAPI = await getPokemons(result.data.results);                               //luego armo el array de pokemons como lo quiero
+    try{
+        if(!name){     
+            result = await axios("https://pokeapi.co/api/v2/pokemon");         
+            pag1 = [...result.data.results];
+
+            result = await axios(result.data.next);
+            pag2 = [...result.data.results];
+
+            result = [...pag1, ...pag2]
+
+            pokemonsAPI = await getPokemons(result);                               
     
-            pokemonDB = await Pokemon.findAll({                                                 //también los busco en la DB
+            pokemonDB = await Pokemon.findAll({                                                 
                 include: {
                     model: Type,
                     attributes: ["id", "name"],
@@ -82,9 +87,9 @@ router.get("/pokemons", async(req, res) => {
                 },
             });
 
-            myPokemons = pokemonDB.map(p => p.dataValues);                                      //y armo el array de pokemons de DB como yo los quiero
+            myPokemons = pokemonDB.map(p => p.dataValues);                                    
 
-            pokemons = [...pokemonsAPI, ...myPokemons]                                          //los junto
+            pokemons = [...pokemonsAPI, ...myPokemons]                                         
 
             res.json(pokemons);
         }else{

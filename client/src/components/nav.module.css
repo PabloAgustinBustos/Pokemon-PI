@@ -6,6 +6,10 @@
   position: fixed;
 }
 
+.backIcon{
+  font-size: 40px;
+}
+
 @media (max-width: 759px){
     .nav{
       height: 50px;

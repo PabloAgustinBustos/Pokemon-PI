@@ -43,7 +43,7 @@ function App() {
       </Route>
 
       <Route exact path="/pokemons">
-        <Nav/>
+        <Nav type="default"/>
       
         <PokeContainer class_name="pokeContainer">
           {pokemonFragment.length > 0 ? pokemonFragment?.map(p => <Card key={p?.name} name={p?.name} image={p?.sprite} types={p?.types || p?.Types}/>) : <Loading/>}
@@ -53,6 +53,7 @@ function App() {
       </Route>
 
       <Route exact path="/pokemons/:pokeName">
+        <Nav type="back"/>
         <PokeInfo/>
       </Route>
 

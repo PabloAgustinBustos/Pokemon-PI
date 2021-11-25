@@ -1,0 +1,48 @@
+.container{
+    padding-top: 50px;
+    padding-bottom: 120px;
+    display: flex;
+    flex-direction: column;
+}
+
+.back{
+    width: 80%;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgba(240, 248, 255, 0.77);
+    border-radius: 10px;
+}
+
+.top{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.right{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.img{
+    width: 200px;
+}
+
+.name{
+    margin: 0;
+}
+
+.stats{
+    display: flex;
+    justify-content: space-around;
+}
+
+.item{
+    font-weight: bolder;
+    font-size: 30px;
+}
+
+.value{
+    font-size: 30px;
+}

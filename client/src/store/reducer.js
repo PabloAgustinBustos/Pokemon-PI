@@ -1,4 +1,4 @@
-import { SET_LEFT, SET_RIGHT, SET_SORT, SET_CREATE, CREATE_POKEMON, GET_POKEMONS, GET_POKEMON, FILTER_BY_TYPE, RESET, FILTER_BY_ORIGIN, SORT } from "./actions";
+import { SET_LEFT, SET_RIGHT, SET_SORT, SET_CREATE, CREATE_POKEMON, GET_POKEMONS, GET_POKEMON, FILTER_BY_TYPE, RESET, FILTER_BY_ORIGIN, SORT, GET_POKEMON_INFO } from "./actions";
 
 import nav from "../components/nav.module.css";
 
@@ -6,6 +6,7 @@ export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, cre
     let pokemons;
     let pokemonFiltered;
     let pokemonsOrdered;
+    let pokemon;
     switch(type){
         case SET_LEFT:
             return{
@@ -51,32 +52,36 @@ export function reducer(state={left: nav.off, right: nav.off, sort: nav.off, cre
                 pokemons: payload
             }       
             
+        case GET_POKEMON_INFO:
+            pokemon = state.pokemons.find(p => p.name === payload.pokeName);
+
+            console.log(state.pokemons)
+            console.log(pokemon)
+
+            return{
+                ...state,
+                pokemon
+            }
+
         case FILTER_BY_TYPE:
-            //agarro los pokemons
             pokemons = state.pokemons;
 
             pokemonFiltered = [];
             
             if(payload === "default"){
-                //si es default, los pokemons filtrados seran los actuales
                 pokemonFiltered = [...pokemons]
             }else{
                 pokemonFiltered = pokemons.filter(p => {
-                    let tipos=p.types ? p.types : p.Types;  //extraigo el array de tipos
+                    let tipos=p.types ? p.types : p.Types;  
                     
-                    console.log(p)
-
-                    //retorno el array filtrado
                     return tipos.filter(type => type.name === payload).length > 0
                 })
             }
 
-            console.log(pokemonFiltered)
-
             return{
                 ...state,
-                backup: pokemons, //n el backup tengo guardados todos los pokemons
-                pokemons: pokemonFiltered   //y los pokmons que renderizará sera solo los filtrados
+                backup: pokemons, 
+                pokemons: pokemonFiltered  
             }
 
         case FILTER_BY_ORIGIN:
