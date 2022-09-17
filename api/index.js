@@ -39,8 +39,11 @@ conn.sync({ alter: true }).then(() => {
         })
 
         if(!typeBD){
+          console.log("creando")
             await Type.create({name})
         }
+
+        console.log("está creado")
     }
 
     console.log('%s listening at 3001'); // eslint-disable-line no-console
