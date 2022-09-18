@@ -20,6 +20,7 @@
 const server = require('./src/app.js');
 const { conn, Type } = require('./src/db.js');
 const axios = require("axios");
+require('dotenv').config({path:`${__dirname}/../.env`});
 
 
 // Syncing all the models at once.
@@ -46,6 +47,6 @@ conn.sync({ alter: true }).then(() => {
         console.log("está creado")
     }
 
-    console.log('%s listening at 3001'); // eslint-disable-line no-console
+    console.log(`server listening on port ${process.env.PORT}`); // eslint-disable-line no-console
   });
 });
