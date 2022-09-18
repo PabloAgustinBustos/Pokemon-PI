@@ -25,7 +25,7 @@ require('dotenv').config({path:`${__dirname}/../.env`});
 
 // Syncing all the models at once.
 conn.sync({ alter: true }).then(() => {
-  server.listen(3001, async() => {
+  server.listen(process.env.PORT || 3001, async() => {
 
     const result = await axios('https://pokeapi.co/api/v2/type');
     const types = result.data.results
