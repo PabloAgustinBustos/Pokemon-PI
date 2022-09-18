@@ -60,7 +60,7 @@ export function setCreate(payload){
 
 export function createPokemon(payload){
     return async (dispatch) => {
-        const res = axios({method: "POST", url: "http://localhost:3001/pokemons", data: payload});
+        const res = axios({method: "POST", url: `https://expressjs-postgres-production-815e.up.railway.app/pokemons`, data: payload});
         
         return dispatch({
             type: CREATE_POKEMON,
@@ -71,7 +71,7 @@ export function createPokemon(payload){
 
 export function getPokemons(payload){
     return async (dispatch) => {
-        const pokemons = await axios("http://localhost:3001/pokemons");
+        const pokemons = await axios(`https://expressjs-postgres-production-815e.up.railway.app/pokemons`);
         
         const payload = pokemons.data;
 
@@ -94,7 +94,7 @@ export function getPokemon(payload){
         let pokemon;
         
         try{
-            pokemon = await axios("http://localhost:3001/pokemons?name=" + payload);
+            pokemon = await axios("https://expressjs-postgres-production-815e.up.railway.app/pokemons?name=" + payload);
     
         }catch(e){
 
